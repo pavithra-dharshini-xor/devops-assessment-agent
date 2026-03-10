@@ -1,29 +1,41 @@
 # DevOps/SRE/Observability Interview Assessment Generator
 
-AI agent that generates comprehensive interview assessment sheets for DevOps, SRE, and Observability roles from candidate resumes using an agentic workflow.
+AI agent that generates comprehensive, challenging interview assessment sheets for DevOps, SRE, and Observability roles from candidate resumes using an advanced 2-step agentic workflow.
 
 ## 🎯 Overview
 
-This agent automatically generates structured interview assessment sheets that help interview panelists evaluate candidates based on their technical skills, experience, project exposure, and real-world responsibilities.
+This agent automatically generates **depth-focused interview assessment sheets** optimized for 1-hour technical interviews. It helps interview panelists evaluate candidates based on their technical skills, experience, project exposure, and real-world responsibilities.
 
 The generated assessment acts as a **reference handbook for interview panelists**, containing:
-- Multiple choice questions (MCQ)
-- Scenario-based questions (production situations)
-- Coding/scripting questions
-- Technology/skill-based questions
+- Multiple choice questions (MCQ) - Minimal, only challenging concepts
+- Scenario-based questions with follow-ups (production situations)
+- Coding/scripting questions (real automation problems)
+- Technology deep-dives with progressive follow-ups
 - Responsibility validation questions
 - Expected answers and evaluation criteria
 - Scoring weightage
 
-## 📋 Features
+## ✨ Key Features (V2)
 
-- **Automated Resume Parsing**: Extracts skills, experience, projects, and responsibilities from PDF resumes
-- **Personalized Questions**: Generates questions tailored to the candidate's specific skills and experience level
-- **Multiple Interview Rounds**: Supports L1 (screening) and L2 (advanced) rounds
-- **Complexity Levels**: Adjustable difficulty (Basic, Intermediate, Advanced)
-- **Role-Specific**: Customized for DevOps, SRE, or Observability positions
-- **Real-World Focus**: Prioritizes practical scenarios over theoretical questions
-- **Comprehensive Scoring**: Includes evaluation criteria and weightage for each section
+### 🏗️ **2-Step Architecture**
+```
+Resume → ProfileAnalyzer → PromptBuilderV2 → LLM → Assessment
+         (Structured      (Optimized prompts
+          Analysis)        with follow-ups)
+```
+
+### 🎯 **Optimized for Quality**
+- **Depth Over Breadth**: Follow-up questions test true understanding
+- **60% Smaller Context**: Efficient prompts for better AI responses
+- **Dynamic Scaling**: Tech questions adapt to candidate's skill breadth
+- **Difficulty Calibrated**: Questions match experience level
+- **Consistent Results**: Sorted skills, no randomization
+
+### 🚀 **1-Hour Interview Format**
+- **40-45 total questions** for comprehensive 60-minute assessment
+- **Minimal MCQs** (just 2) - Focus on practical skills
+- **Follow-up questions** for tech and scenarios - Progressive depth testing
+- **Real production scenarios** - Not textbook definitions
 
 ## 🏗️ Architecture
 
@@ -31,9 +43,11 @@ The generated assessment acts as a **reference handbook for interview panelists*
 devops-assessment-agent/
 │
 ├── agent.md                    # Agent instructions and requirements
-├── app.py                      # Main agent workflow
+├── app.py                      # Main agent workflow (5-step process)
 ├── resume_parser.py            # Resume text extraction and parsing
-├── prompt_builder.py           # Prompt construction from agent instructions
+├── profile_analyzer.py         # ⭐ NEW: Structured profile analysis
+├── prompt_builder.py           # Original prompt builder (V1)
+├── prompt_builder_v2.py        # ⭐ NEW: Enhanced with follow-ups
 ├── requirements.txt            # Python dependencies
 ├── create_sample_resume.py     # Generate sample resume for testing
 └── README.md                   # This file
@@ -84,7 +98,7 @@ python app.py path/to/resume.pdf
 ```bash
 python app.py path/to/resume.pdf \
   --position DevOps \
-  --round L1 \
+  --round L2 \
   --complexity Intermediate \
   --output assessment.md
 ```
@@ -116,14 +130,14 @@ python app.py path/to/resume.pdf --analyze
 python app.py resume.pdf --position DevOps --round L1 --complexity Basic
 ```
 
-**L2 Round for Senior SRE**:
+**L2 Round for Mid-Level DevOps (4+ years)**:
 ```bash
-python app.py resume.pdf --position SRE --round L2 --complexity Advanced
+python app.py resume.pdf --position SRE --round L2 --complexity Intermediate
 ```
 
-**Observability Engineer Assessment**:
+**Advanced Observability Engineer**:
 ```bash
-python app.py resume.pdf --position Observability --round L1 --complexity Intermediate
+python app.py resume.pdf --position Observability --round L2 --complexity Advanced
 ```
 
 ## 🧪 Testing
@@ -144,47 +158,97 @@ This creates `sample_resume.pdf` with realistic DevOps experience.
 python app.py sample_resume.pdf --position DevOps --round L2 --complexity Intermediate
 ```
 
-## 📊 Assessment Structure
+## 📊 Assessment Structure (V2)
 
-Generated assessments follow this structure:
+Generated assessments are optimized for **1-hour interviews** with progressive questioning:
 
-### Section 1: Multiple Choice Questions (20%)
-- Tests foundational technical knowledge
-- 3-5 questions with answers and explanations
+### Section 1: Multiple Choice Questions (20% weight)
+- **Just 2 MCQs** - Quick challenging fundamentals only
+- No basic "what is X" questions
+- Focus on edge cases and architecture decisions
 
-### Section 2: Scenario-Based Questions (40%)
-- Real production situations
-- 4-6 questions with expected solutions and evaluation criteria
+### Section 2: Scenario-Based Questions (40% weight)
+- **8-10 complex production scenarios**
+- **Follow-up questions included** for depth testing
+- Real production issues requiring multi-step analysis
+- Format: Initial problem → Deeper investigation → Prevention/optimization
 
-### Section 3: Coding/Scripting Questions (20%)
-- Automation and scripting capability
-- 2-3 problems with sample solutions
+### Section 3: Coding/Scripting Questions (20% weight)
+- **4-5 automation problems**
+- Error handling, optimization required
+- Based on candidate's actual tech stack
+- Sample solutions with evaluation criteria
 
-### Section 4: Technology/Skill Based Questions (10%)
-- Deep-dive into specific technologies from resume
-- 2-3 questions aligned with candidate's skills
+### Section 4: Technology Deep-Dives (10% weight)
+- **2-4 deep-dives** (scales with skill count)
+- **Each deep-dive = 3 progressive follow-up questions**
+- Tests depth, not breadth
+- Example: K8s debugging → Performance → Prevention
 
-### Section 5: Responsibility-Based Questions (10%)
-- Validates actual experience claimed in resume
-- 2-3 questions with red flags to watch for
+### Section 5: Responsibility Validation (10% weight)
+- **3-4 validation questions**
+- Verify claimed experience is genuine
+- Red flags and good signs listed
 
 ## 🎓 Question Distribution
 
-### L1 Round (Initial Technical Screening)
-- 5 MCQs - Test fundamentals
-- 4 Scenario-based - Real-world problem solving
-- 2 Coding/Scripting - Automation capability
-- 3 Technology/Skills - Tool expertise
-- 2 Responsibility-based - Verify experience
-- **Total: 16 questions**
+### L1 Round (Initial Technical Screening - 1 Hour)
+- **2 MCQs** - Quick fundamentals check
+- **8 Scenarios** (with optional follow-ups) - Real-world problem solving
+- **4 Coding** - Automation capability
+- **2-4 Tech Deep-Dives** (each with 3 sub-questions) - Based on skill count
+- **4 Responsibility** - Verify experience
+- **Total: ~35-40 questions**
 
-### L2 Round (Advanced Technical)
-- 3 MCQs - Advanced concepts
-- 6 Scenario-based - Complex production scenarios
-- 3 Coding/Scripting - Advanced automation
-- 3 Technology/Skills - Deep technical knowledge
-- 3 Responsibility-based - Leadership & ownership
-- **Total: 18 questions**
+### L2 Round (Advanced Technical - 1 Hour)
+- **2 MCQs** - Advanced challenging concepts only
+- **10 Scenarios** (with follow-ups) - Complex production situations
+- **5 Coding** - Advanced automation with error handling
+- **2-4 Tech Deep-Dives** (each with 3 sub-questions) - Progressive depth
+- **4 Responsibility** - Leadership & ownership validation
+- **Total: ~40-45 questions**
+
+### Dynamic Tech Deep-Dives
+
+Tech questions **automatically scale** based on candidate's skill breadth:
+- **27+ skills** → 4 deep-dives (12-16 tech questions)
+- **15-19 skills** → 3 deep-dives (9-12 tech questions)
+- **10-14 skills** → 3 deep-dives (9-12 tech questions)
+- **<10 skills** → 2 deep-dives (6-8 tech questions)
+
+## 🔍 How It Works (V2 Workflow)
+
+1. **Resume Parsing**: Extracts text from PDF, identifies skills, experience, projects
+2. **Profile Analysis** ⭐ NEW: 
+   - Categorizes technologies into 10 groups
+   - Identifies top 3 primary expertise areas
+   - Determines skill diversity score
+   - Creates concise summary (60% smaller context)
+3. **Prompt Building**: Constructs optimized prompt with:
+   - Smaller context for efficiency
+   - Tech prioritization
+   - Strict formatting rules
+   - Difficulty calibration
+   - Follow-up question mandates
+4. **AI Generation**: Uses OpenAI GPT model with structured prompts
+5. **Output Formatting**: Saves markdown assessment with actual date
+
+## 💡 What Makes V2 Better
+
+### Before (V1)
+❌ Generic questions not aligned with candidate  
+❌ Large unstructured prompts  
+❌ No follow-up questions  
+❌ Too many shallow MCQs  
+❌ No tech prioritization  
+
+### After (V2)
+✅ **Personalized** to candidate's top 3 tech areas  
+✅ **60% smaller context** = better AI responses  
+✅ **Follow-up questions** test depth  
+✅ **Just 2 MCQs** focus on practical skills  
+✅ **Dynamic scaling** based on skill count  
+✅ **Difficulty calibrated** for experience level  
 
 ## 🔧 Configuration
 
@@ -213,42 +277,47 @@ python app.py resume.pdf --model gpt-4-turbo-preview
 
 The generated assessment includes:
 
-1. **Candidate Overview**: Experience level, seniority, detected skills
+1. **Candidate Overview**: Experience level, seniority, skill diversity score
 2. **Interview Configuration**: Position, round, complexity level
-3. **Question Sections**: All 5 categories with questions and answers
-4. **Scoring Matrix**: Evaluation weightage by section
-5. **Guidelines**: Scoring thresholds and recommendations
-6. **Interviewer Notes**: Space for observations
+3. **Primary Focus Areas**: Top 3 tech categories from profile analysis
+4. **Question Sections**: All 5 categories with progressive questions
+5. **Follow-up Questions**: For tech and complex scenarios
+6. **Expected Answers**: Detailed with evaluation criteria
+7. **Scoring Matrix**: Evaluation weightage by section
+8. **Guidelines**: Scoring thresholds and recommendations
 
-## 🔍 How It Works
-
-1. **Resume Parsing**: Extracts text from PDF, identifies skills, experience, projects, and responsibilities
-2. **Profile Analysis**: Determines seniority level and technical focus areas
-3. **Prompt Building**: Constructs comprehensive prompt using agent instructions and candidate profile
-4. **AI Generation**: Uses OpenAI's GPT model to generate personalized questions and answers
-5. **Output Formatting**: Saves structured markdown assessment for panelists
-
-## 💡 Best Practices
+## 🎯 Best Practices
 
 1. **Resume Quality**: Better structured resumes yield more accurate assessments
 2. **Experience Alignment**: Match complexity level with candidate's years of experience
 3. **Round Selection**: Use L1 for initial screening, L2 for deep technical evaluation
-4. **Review Generated Content**: Always review and customize questions before interviews
-5. **Use as Guide**: Generated assessments are starting points - adapt to your needs
+4. **Review Generated Content**: Always review questions - they're challenging by design
+5. **Use Follow-ups**: The follow-up questions are key to testing real expertise
+6. **Skill Count Matters**: More skills = more tech deep-dives automatically
+
+## 📈 Profile Analysis Features
+
+The ProfileAnalyzer categorizes skills into:
+
+1. **Container Orchestration** (Kubernetes, Docker, etc.)
+2. **Infrastructure as Code** (Terraform, Ansible, etc.)
+3. **CI/CD** (Jenkins, GitLab, ArgoCD, etc.)
+4. **Cloud Platforms** (AWS, Azure, GCP)
+5. **Monitoring/Observability** (Prometheus, Grafana, ELK)
+6. **Scripting** (Python, Bash, Shell)
+7. **Networking** (Nginx, Load Balancers, API Gateway)
+8. **Databases** (MySQL, PostgreSQL, Redis)
+9. **Version Control** (Git, GitHub, GitLab)
+10. **Security** (Vault, Secrets, SSL/TLS)
 
 ## 🛠️ Development
-
-### Running Tests
-
-```bash
-pytest
-```
 
 ### Code Structure
 
 - `ResumeParser`: Handles PDF parsing and information extraction
-- `PromptBuilder`: Constructs prompts from agent instructions
-- `AssessmentGenerator`: Main workflow orchestration and AI interaction
+- `ProfileAnalyzer` ⭐ NEW: Structured profile analysis with tech categorization
+- `PromptBuilderV2` ⭐ NEW: Optimized prompts with follow-ups and strict formatting
+- `AssessmentGenerator`: Main workflow orchestration (5-step process)
 
 ## 🐛 Troubleshooting
 
@@ -261,10 +330,15 @@ export OPENAI_API_KEY='your-key'
 - Ensure resume is a valid PDF with extractable text
 - Scanned images may not work without OCR
 
-**Issue**: Low-quality questions
-- Try using `--model gpt-4o` instead of mini versions
-- Ensure resume has clear skills and experience sections
-- Adjust complexity level appropriately
+**Issue**: Questions still too easy
+- The system is calibrated for experience level
+- Try using `--complexity Advanced`
+- Ensure resume clearly states years of experience
+
+**Issue**: Not enough tech questions
+- Tech deep-dives scale with skill count
+- Add more skills to resume for more coverage
+- Each deep-dive includes 3 follow-up questions
 
 ## 📄 License
 
@@ -280,4 +354,4 @@ For questions or support, please open an issue on GitHub.
 
 ---
 
-**Note**: This tool uses AI to generate assessments. Always review and customize the output before using in actual interviews.
+**Note**: This tool uses AI to generate challenging assessments optimized for 1-hour interviews. Questions are designed to test depth of knowledge through follow-ups. Always review and customize the output before using in actual interviews.
