@@ -45,9 +45,8 @@ devops-assessment-agent/
 ├── agent.md                    # Agent instructions and requirements
 ├── app.py                      # Main agent workflow (5-step process)
 ├── resume_parser.py            # Resume text extraction and parsing
-├── profile_analyzer.py         # ⭐ NEW: Structured profile analysis
-├── prompt_builder.py           # Original prompt builder (V1)
-├── prompt_builder_v2.py        # ⭐ NEW: Enhanced with follow-ups
+├── profile_analyzer.py         # Structured profile analysis
+├── prompt_builder_v2.py        # Enhanced prompt builder with follow-ups
 ├── requirements.txt            # Python dependencies
 ├── create_sample_resume.py     # Generate sample resume for testing
 └── README.md                   # This file

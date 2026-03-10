@@ -26,7 +26,7 @@ except ImportError:
 
 class AssessmentGenerator:
     """Main agent workflow for generating interview assessments"""
-    
+
     def __init__(self, api_key: Optional[str] = None):
         """
         Initialize the assessment generator
@@ -43,7 +43,7 @@ class AssessmentGenerator:
 
         if version_major >= 1:
             # New API (v1.0+)
-            
+
             # Create a custom HTTP client without proxies to avoid compatibility issues
             http_client = httpx.Client(
                 timeout=60.0,
@@ -54,9 +54,9 @@ class AssessmentGenerator:
                 self.client = OpenAI(api_key=self.api_key, http_client=http_client)
                 self.use_new_api = True
                 print("Using OpenAI API v1.0+")
-            except TypeError as e:
+            except TypeError:
                 # If http_client parameter doesn't work, try without it
-                print(f"Note: Using simplified client initialization")
+                print("Note: Using simplified client initialization")
                 os.environ['OPENAI_API_KEY'] = self.api_key
                 self.client = OpenAI()
                 self.use_new_api = True
